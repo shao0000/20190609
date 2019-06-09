@@ -1,0 +1,17 @@
+#BaseNav{
+    background-color: red;
+    height: auto;
+    width: 100%;
+}
+#BaseNav>div{
+    float: left;
+    width: 12.5%;
+    height: 80px;
+    background-color: #ababab;
+    font-size: 30px;
+    line-height: 80px;
+    text-align: center;
+}
+#BaseNav>div>a{
+    color: #333;
+}

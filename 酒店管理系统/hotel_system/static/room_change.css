@@ -1,0 +1,55 @@
+#Room_ChangeCatalog{
+    width: 15%;
+    height: calc(100vh - 80px);
+    background-color: cadetblue;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+#Room_ChangeCatalog > form > button {
+    width: 50%;
+    margin-top: 20px;
+
+}
+
+.form-inline > div {
+    margin-top: 20px;
+}
+#Room_ChangeContent {
+    width: 85%;
+    height: 100%;
+    background-color: blue;
+    float: left;
+
+}
+td {
+    font-size: 18px;
+    text-align: center;
+}
+
+#Room_ChangeContent_top{
+    height: auto;
+}
+
+#Room_ChangeTableHeader > td {
+    font-size: 20px;
+    color: black;
+}
+#Room_ChangeContent_bottom>div{
+    float: left;
+    width:50%;
+    height: calc(100vh - 352px);
+    background-color: burlywood;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px
+}
+#Room_ChangeContent_bottom>div>div{
+    width: 30%;
+    margin-right: 20px;
+}
+.btn-group{
+    margin-top: 20px;
+}

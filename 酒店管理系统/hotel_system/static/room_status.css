@@ -1,0 +1,37 @@
+#Room_StatusCatalog {
+    width: 15%;
+    height: calc(100vh - 80px);
+    background-color: cadetblue;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+#Room_StatusCatalog > form > button {
+    width: 50%;
+    margin-top: 20px;
+
+}
+
+.form-inline > div {
+    margin-top: 20px;
+}
+
+#Room_StatusContent {
+    width: 85%;
+    height: 100%;
+    /*background-color: blue;*/
+    float: left;
+
+}
+
+td {
+    font-size: 18px;
+    text-align: center;
+}
+#Room_StatusTableHeader > td {
+    font-size: 20px;
+    color: black;
+}

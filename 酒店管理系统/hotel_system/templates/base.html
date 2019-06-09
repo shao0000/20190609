@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    {% block css %}
+        <link href="{% static 'base.css' %}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+    <div id="BaseNav">
+        <div>XX酒店</div>
+        <div><a href="/hotel/query_0">客房查询</a></div>
+        <div><a href="/hotel/reservation">客房预订</a></div>
+        <div><a href="/hotel/check">客户入住</a></div>
+        <div><a href="/hotel/room_change">客房更改</a></div>
+        <div><a href="/hotel/room_settlement">客房结算</a></div>
+        <div><a href="/hotel/room_type">客房类型</a></div>
+        <div><a href="/hotel/room_status">客房状态</a></div>
+    </div>
+{% endblock %}
+{% block content %}
+
+{% endblock %}
+{% block footer %}
+
+{% endblock %}
+
+
+</body>
+{% block js %}
+    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+{% endblock %}
+</html>

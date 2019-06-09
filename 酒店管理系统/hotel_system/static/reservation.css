@@ -1,0 +1,92 @@
+#RservationCatalog {
+    width: 15%;
+    height: calc(100vh - 80px);
+    background-color: cadetblue;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+#RservationCatalog > form > button {
+    width: 50%;
+    margin-top: 20px;
+
+}
+
+#RservationCatalog > a {
+    width: 50%;
+    margin-top: 20px;
+
+}
+
+#RservationContent {
+    width: 85%;
+    height: 100%;
+    /*background-color: blue;*/
+    float: left;
+
+}
+
+td {
+    font-size: 18px;
+    text-align: center;
+}
+
+#RservationTableHeader > td {
+    font-size: 20px;
+    color: black;
+}
+
+#RservationTrError {
+    font-size: 20px;
+    color: red;
+}
+
+.form-inline > div {
+    margin-top: 20px;
+}
+
+#again_reservation {
+    width: 100%;
+    height: 380px;
+    background-color: aqua;
+    padding-top: 15px;
+    padding-left: 5px;
+}
+
+#again_reservation > form > div {
+    margin-left: 20px;
+    float: left;
+}
+
+#again_reservation > form > div > div {
+    margin-top: 10px;
+}
+
+#again_reservation > form > div > div > label {
+    font-size: 16px;
+}
+
+#form_radio {
+    width: 20px;
+    height: 20px;
+}
+
+#div_button {
+    padding: 0px;
+}
+
+#RservationTableHeader2 > td {
+    font-size: 14px;
+    color: black;
+}
+#RservationMessage{
+    font-size: 18px;
+    color: black;
+}
+#QueryTrError{
+    font-size: 20px;
+    color: red;
+}

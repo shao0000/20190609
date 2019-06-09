@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+    {{ block.super }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'checkin.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div id="CheckCatalog">
+        <form class="form-inline" method="post" action="{% url 'hotel:check' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="房间号" name="roomid"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="订单号" name="checkid"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="证件号" name="crednum"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="用户姓名" name="username"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="手机号" name="phone"
+                       style="width: 65%">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-default btn-lg active">查询</button>
+        </form>
+        <a href="/hotel/check" class="btn btn-default btn-lg active" role="button">已预约办入住</a>
+        <a href="/hotel/new_checkin" class="btn btn-default btn-lg active" role="button">没有预约入住</a>
+    </div>
+    <div id="CheckContent">
+        <div id="CheckContent_top">
+            {% if new_checkin %}
+                <div id="new_checkin">
+                    <form class="form-inline" method="post" action="{% url 'hotel:new_checkin' %}">
+                        {% csrf_token %}
+                        <div>
+                            <div class="form-group ">
+                                <label>用户姓名：</label>
+                                <input type="text" class="form-control" id="exampleInputName2" placeholder="姓名"
+                                       name="username">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>联系电话：</label>
+                                <input type="tel" class="form-control" id="exampleInputName2" placeholder="联系电话"
+                                       name="phone">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>证件类型：</label>
+                                <select class="form-control" name="cred_type">
+                                    <option value="身份证">身份证</option>
+                                    <option value="驾驶证">驾驶证</option>
+                                    <option value="军官证">军官证</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>入住日期：</label>
+                                <input type="date" class="form-control" id="exampleInputName2" name="check_time">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>房&ensp;间&ensp;号：</label>
+                                <input type="text" class="form-control" id="exampleInputName2" placeholder="房间号"
+                                       name="roomid">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label>性&emsp;&emsp;别：</label>
+                                <label>
+                                    <input type="radio" id="form_radio" name="sex" value="1"> 男
+                                </label>
+                                <label>
+                                    <input type="radio" id="form_radio" name="sex" value="0"> 女
+                                </label>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>押&emsp;&emsp;金：</label>
+                                <input type="text" class="form-control" id="exampleInputName2" placeholder="押金"
+                                       name="deposit_money">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>证件号码：</label>
+                                <input type="text" class="form-control" id="exampleInputName2" placeholder="证件号码"
+                                       name="cred_num">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>入住天数：</label>
+                                <input type="number" min="1" step="1" class="form-control" id="exampleInputName2"
+                                       placeholder="入住天数" name="check_days">
+                            </div>
+                            <br>
+                            <div id="div_button">
+                                <button type="submit" class="btn btn-success btn-lg">入住</button>
+                            </div>
+
+                        </div>
+                        <div>
+                            <label id="CheckMessage">可入住的房间信息：</label>
+                            <br>
+                            <table class="table table-hover">
+                                <tr id="CheckTableHeader2">
+                                    <td class="active">房间号</td>
+                                    <td class="active">房间类型</td>
+                                    <td class="active">房间面积</td>
+                                    <td class="active">房间床位</td>
+                                    <td class="active">房间单价</td>
+                                    <td class="active">是否有宽带</td>
+                                    <td class="active">房间备注</td>
+                                </tr>
+                                {% if Cherk_object %}
+                                    {% for foo in Cherk_object %}
+                                        <tr>
+                                            <td class="active">{{ foo.RoomID }}</td>
+                                            <td class="active">{{ foo.RoomType }}</td>
+                                            <td class="active">{{ foo.RoomArea }}</td>
+                                            <td class="active">{{ foo.RoomBed }}</td>
+                                            <td class="active">{{ foo.RoomPrice }}</td>
+                                            {% if foo.RoomWifi == True %}
+                                                <td class="active">是</td>
+                                            {% else %}
+                                                <td class="active">否</td>
+                                            {% endif %}
+                                            <td class="active">{{ foo.RoomRemarks }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+                                {% endif %}
+                            </table>
+                            <nav aria-label="Page navigation" style="margin-top: 0px;padding-top: 0;text-align: center">
+                                <ul class="pagination" style="margin: 0px;padding: 0px">
+                                    {% if has_prev %}
+                                        <li><a href="{{ path }}?page={{ Page.previous_page_number }}">上一页</a></li>
+                                    {% else %}
+                                        <li><a href="{{ path }}?page=1">上一页</a></li>
+                                    {% endif %}
+
+                                    {% for foo in page_range %}
+                                        <li><a href="{{ path }}?page={{ foo }}">{{ foo }}</a></li>
+                                    {% endfor %}
+
+                                    {% if has_next %}
+                                        <li><a href="{{ path }}?page={{ Page.next_page_number }}">下一页</a></li>
+
+                                    {% else %}
+                                        <li><a href="{{ path }}?page={{ end_page }}">下一页</a></li>
+                                    {% endif %}
+
+                                </ul>
+
+                            </nav>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            {% endif %}
+            {% if Booked %}
+                <table class="table table-hover">
+                    <tr id="CheckTableHeader">
+                        <td class="active">订单号</td>
+                        <td class="active">姓名</td>
+                        <td class="active">性别</td>
+                        <td class="active">证件类型</td>
+                        <td class="active">证件号</td>
+                        <td class="active">联系电话</td>
+                        <td class="active">房间号</td>
+                        <td class="active">入住日期</td>
+                        <td class="active">入住天数</td>
+                        <td class="active">押金</td>
+                        <td class="active">操作</td>
+                    </tr>
+                    {% for foo in result %}
+                        <tr>
+                            <td class="active">{{ foo.ReservationID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Reservation_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">
+                                <button class="reservation_to_check" room_id="{{ foo.Reservation_roomID.RoomID }}">
+                                    办理入住
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% if not paginate %}
+                    <nav aria-label="Page navigation"
+                         style="margin-top: 0px;padding-top: 0;text-align: center;float: right">
+                        <ul class="pagination" style="margin: 0px;padding: 0px">
+                            {% if has_prev %}
+                                <li><a href="{{ path }}?page={{ Page.previous_page_number }}">上一页</a></li>
+                            {% else %}
+                                <li><a href="{{ path }}?page=1">上一页</a></li>
+                            {% endif %}
+
+                            {% for foo in page_range %}
+                                <li><a href="{{ path }}?page={{ foo }}">{{ foo }}</a></li>
+                            {% endfor %}
+
+                            {% if has_next %}
+                                <li><a href="{{ path }}?page={{ Page.next_page_number }}">下一页</a></li>
+                            {% else %}
+                                <li><a href="{{ path }}?page={{ end_page }}">下一页</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+        <div id="CheckContent_bottom">
+
+            <table class="table table-hover" id="CheckContent_table">
+                <tr id="CheckTableHeader">
+                    <td class="active">订单号</td>
+                    <td class="active">姓名</td>
+                    <td class="active">性别</td>
+                    <td class="active">证件类型</td>
+                    <td class="active">证件号</td>
+                    <td class="active">联系电话</td>
+                    <td class="active">房间号</td>
+                    <td class="active">入住日期</td>
+                    <td class="active">入住天数</td>
+                    <td class="active">押金</td>
+                    <td class="active">状态</td>
+                </tr>
+                {% if Name_in_reservation %}
+                    {% for foo in Name_in_reservation %}
+                        <tr>
+                            <td class="active">{{ foo.ReservationID }}</td>
+                            <td class="active" style="color: red">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Reservation_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已预约</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Name_in_cherk %}
+                    {% for foo in Name_in_cherk %}
+                        <tr>
+                            <td class="active">{{ foo.CheckID }}</td>
+                            <td class="active" style="color: red">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Check_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已入住</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Phone_in_reservation %}
+                    {% for foo in Phone_in_reservation %}
+                        <tr>
+                            <td class="active">{{ foo.ReservationID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active" style="color: red">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Reservation_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已预约</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Phone_in_check %}
+                    {% for foo in Phone_in_check %}
+                        <tr>
+                            <td class="active">{{ foo.CheckID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active" style="color: red">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Check_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已入住</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Roomid_in_reservation %}
+                    {% for foo in Roomid_in_reservation %}
+                        <tr>
+                            <td class="active">{{ foo.ReservationID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active" style="color: red">{{ foo.Reservation_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已预约</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Roomid_in_check %}
+                    {% for foo in Roomid_in_check %}
+                        <tr>
+                            <td class="active">{{ foo.CheckID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active" style="color: red">{{ foo.Check_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已入住</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Cred_num_in_reservation %}
+                    {% for foo in Cred_num_in_reservation %}
+                        <tr>
+                            <td class="active">{{ foo.ReservationID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active" style="color: red">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Reservation_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已预约</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Cred_num_in_check %}
+                    {% for foo in Cred_num_in_check %}
+                        <tr>
+                            <td class="active">{{ foo.CheckID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active" style="color: red">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Check_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已入住</td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endif %}
+                {% if Check_success %}
+                    {% for foo in Check_success %}
+                        <tr>
+                            <td class="active">{{ foo.CheckID }}</td>
+                            <td class="active">{{ foo.User_name }}</td>
+                            {% if foo.User_sex == True %}
+                                <td class="active">男</td>
+                            {% else %}
+                                <td class="active">女</td>
+                            {% endif %}
+                            <td class="active">{{ foo.User_cred_type }}</td>
+                            <td class="active">{{ foo.User_cred_num }}</td>
+                            <td class="active">{{ foo.User_phone }}</td>
+                            <td class="active">{{ foo.Check_roomID.RoomID }}</td>
+                            <td class="active">{{ foo.Check_time }}</td>
+                            <td class="active">{{ foo.Check_days }}</td>
+                            <td class="active">{{ foo.Deposit_money }}</td>
+                            <td class="active">已入住</td>
+                        </tr>
+
+                    {% endfor %}
+                    <tr>
+                        <td class="active" style="color: red">入住成功！！！</td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                        <td class="active"></td>
+                    </tr>
+
+                {% endif %}
+
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'checkin.js' %}"></script>
+{% endblock %}

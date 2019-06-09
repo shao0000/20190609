@@ -1,0 +1,38 @@
+#QueryCatalog{
+    width: 15%;
+    height: calc(100vh - 80px);
+    background-color: cadetblue;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+
+}
+#QueryCatalog>form>button{
+    width: 50%;
+    margin-top: 20px;
+
+}
+#QueryCatalog>a{
+    width: 50%;
+    margin-top: 20px;
+
+}
+#QueryContent{
+    width: 85%;
+    height: 500px;
+    /*background-color: blue;*/
+    float: left;
+
+}
+td{
+    font-size: 20px;
+    text-align: center;
+}
+#QueryTableHeader>td{
+    font-size: 23px;
+    color: black;
+}
+#QueryTrError{
+    font-size: 20px;
+    color: red;
+}

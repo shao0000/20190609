@@ -1,0 +1,70 @@
+#Room_SettlementCatalog {
+    width: 15%;
+    height: calc(100vh - 80px);
+    background-color: cadetblue;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+#Room_SettlementCatalog > form > button {
+    width: 50%;
+    margin-top: 20px;
+
+}
+
+.form-inline > div {
+    margin-top: 20px;
+}
+
+#Room_SettlementContent {
+    width: 85%;
+    height: 100%;
+    background-color: blue;
+    float: left;
+
+}
+
+td {
+    font-size: 18px;
+    text-align: center;
+}
+
+#Room_SettlementContent_top {
+    height: auto;
+}
+
+#Room_SettlementTableHeader > td {
+    font-size: 20px;
+    color: black;
+}
+
+#Room_SettlementContent_bottom > div:first-child {
+    float: left;
+    width: 60%;
+    height: auto;
+    background-color: red;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px
+}
+#Room_SettlementContent_bottom > div:nth-child(2) {
+    float: left;
+    width: 40%;
+    height: auto;
+    background-color: olivedrab;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px
+}
+#Room_SettlementContent_bottom > div:nth-child(3) {
+    float: left;
+    width: 100%;
+    height: auto;
+    background-color: cornflowerblue;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px
+}

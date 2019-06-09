@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+    {{ block.super }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'room_change.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div id="Room_ChangeCatalog">
+        <form class="form-inline" method="post" action="{% url 'hotel:room_change' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="房间号" name="roomid"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="订单号" name="checkid"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="证件号" name="crednum"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="用户姓名" name="username"
+                       style="width: 65%">
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="手机号" name="phone"
+                       style="width: 65%">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-default btn-lg active">查询</button>
+        </form>
+
+    </div>
+    <div id="Room_ChangeContent">
+        <div id="Room_ChangeContent_top">
+            <table class="table table-hover">
+                <tr id="Room_ChangeTableHeader">
+                    <td class="active">订单号</td>
+                    <td class="active">姓名</td>
+                    <td class="active">性别</td>
+                    <td class="active">证件类型</td>
+                    <td class="active">证件号</td>
+                    <td class="active">联系电话</td>
+                    <td class="active">房间号</td>
+                    <td class="active">入住日期</td>
+                    <td class="active">入住天数</td>
+                    <td class="active">押金</td>
+                    <td class="active">状态</td>
+                </tr>
+                {% for foo in Check_object %}
+                    <tr>
+                        <td class="active">{{ foo.CheckID }}</td>
+                        <td class="active">{{ foo.User_name }}</td>
+                        {% if foo.User_sex == True %}
+                            <td class="active">男</td>
+                        {% else %}
+                            <td class="active">女</td>
+                        {% endif %}
+                        <td class="active">{{ foo.User_cred_type }}</td>
+                        <td class="active">{{ foo.User_cred_num }}</td>
+                        <td class="active">{{ foo.User_phone }}</td>
+                        <td class="active">{{ foo.Check_roomID.RoomID }}</td>
+                        <td class="active">{{ foo.Check_time }}</td>
+                        <td class="active">{{ foo.Check_days }}</td>
+                        <td class="active">{{ foo.Deposit_money }}</td>
+                        <td class="active">已入住</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+            {% if not paginate %}
+                <nav aria-label="Page navigation" style="margin-top: 0px;padding-top: 0;text-align: center">
+                    <ul class="pagination" style="margin: 0px;padding: 0px">
+                        {% if has_prev %}
+                            <li><a href="{{ path }}?page={{ Page.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                            <li><a href="{{ path }}?page=1">上一页</a></li>
+                        {% endif %}
+
+                        {% for foo in page_range %}
+                            <li><a href="{{ path }}?page={{ foo }}">{{ foo }}</a></li>
+                        {% endfor %}
+
+                        {% if has_next %}
+                            <li><a href="{{ path }}?page={{ Page.next_page_number }}">下一页</a></li>
+                        {% else %}
+                            <li><a href="{{ path }}?page={{ end_page }}">下一页</a></li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            {% endif %}
+
+        </div>
+        <div id="Room_ChangeContent_bottom">
+            <div>
+                <h1>续住</h1>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">原有天数</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1"
+                           value="{{ Check_object.0.Check_days }}" readonly id="ori_days">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon1">原有押金</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1"
+                           value="{{ Check_object.0.Deposit_money }}" readonly id="ori_money">
+                </div>
+                <br>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">追加天数</span>
+                    <input type="number" class="form-control" aria-describedby="sizing-addon1" id="add_days">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon1">追加押金</span>
+                    <select class="form-control" id="add_money">
+                        <option></option>
+                        <option>0</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                        <option>300</option>
+                    </select>
+                </div>
+                <br>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">现有天数</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="ava_days">
+                </div>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">押金总额</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="ava_money">
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" id="continue_room">续住</button>
+                </div>
+
+            </div>
+            <div>
+                <h1>调房</h1>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">原客房号</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1"
+                           value="{{ Check_object.0.Check_roomID.RoomID }}" readonly id="ori_room">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon1">原有押金</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1"
+                           value="{{ Check_object.0.Deposit_money }}" readonly id="ori_money2">
+                </div>
+                <br>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">预改房号</span>
+                    <select class="form-control" id="cha_room">
+                        <option>{{ foo.RoomID }}</option>
+                        {% for foo in replace_room_object %}
+                            <option>{{ foo.RoomID }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon1">追加押金</span>
+                    <select class="form-control" id="add_money2">
+                        <option></option>
+                        <option>0</option>
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                        <option>300</option>
+                    </select>
+                </div>
+                <br>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">现客房号</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="now_room">
+                </div>
+                <div class="input-group" style="float: left">
+                    <span class="input-group-addon" id="sizing-addon1">押金总额</span>
+                    <input type="text" class="form-control" aria-describedby="sizing-addon1" id="ava_money2">
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" id="change_room">调房</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'room_change.js' %}"></script>
+{% endblock %}
